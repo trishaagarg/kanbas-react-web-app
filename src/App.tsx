@@ -10,10 +10,10 @@ function App() {
     <HashRouter>
       <div>
         <Routes>
-          <Route path="/" element={<Navigate to="LandingPage" />} />
-          <Route path="/LandingPage/*" element={<LandingPage />} />
+          <Route path="/" element={<Navigate to="Kanbas" />} />
           <Route path="/Kanbas/*" element={<Kanbas />} />
           <Route path="/Labs/*" element={<Labs />} />
+          <Route path="/LandingPage/*" element={<LandingPage />} />
         </Routes>
       </div>
     </HashRouter>
