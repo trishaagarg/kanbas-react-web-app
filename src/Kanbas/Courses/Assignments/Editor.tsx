@@ -2,111 +2,131 @@ import React from 'react';
 
 export default function AssignmentEditor() {
     return (
-        <div id="wd-assignments-editor">
-            <table style={{ width: '100%' }}>
-                <tbody>
-                    <tr>
-                        <td><h3>Assignment Name</h3><br /></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input id="wd-name" style={{ width: '100%' }} defaultValue="A1 - ENV + HTML" /><br /><br />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <textarea id="wd-textarea" style={{ width: '200%' }} rows={10} defaultValue="The assignment is available online. Submit a link to the landing page of your Web application running on Netlify. The landing page should include the following: Your full name and section; Links to each of the lab assignments; Link to the Kanbas application; Links to all relevant source code repositories. The Kanbas application should include a link to navigate back to the landing page." /><br /><br />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                            <label htmlFor="wd-points">Points</label>
-                        </td>
-                        <td>
-                            <input id="wd-points" type="number" defaultValue={100} /><br /><br />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                            <label htmlFor="wd-group">Assignment Group</label>
-                        </td>
-                        <td>
-                            <select id="wd-group">
-                                <option>ASSIGNMENTS</option>
-                                <option>QUIZZES</option>
-                                <option>EXAMS</option>
-                            </select><br /><br />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                            <label htmlFor="wd-grade-display">Display Grade as</label>
-                        </td>
-                        <td>
-                            <select id="wd-grade-display">
-                                <option>Percentage</option>
-                                <option>Points</option>
-                                <option>Letter</option>
-                            </select><br /><br />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                            <label htmlFor="wd-submission-type">Submission Type</label>
-                        </td>
-                        <td>
-                            <select id="wd-submission-type">
+        <div className="container mt-4">
+            <h2>Edit Assignment</h2>
+            <form>
+                
+                {/* Assignment Name */}
+                <div className="mb-3">
+                    <label htmlFor="assignmentName" className="form-label">Assignment Name</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="assignmentName"
+                        defaultValue="A1"
+                    />
+                </div>
+
+                {/* Description */}
+                <div className="mb-3">
+                    <label htmlFor="description" className="form-label">Description</label>
+                    <textarea
+                        className="form-control"
+                        id="description"
+                        rows={5}
+                        placeholder="The assignment is available online. Submit a link..."
+                    ></textarea>
+                </div>
+                
+                {/* Points, Assignment Group, Display Grade */}
+                <div className="mb-3">
+                    <label htmlFor="points" className="form-label">Points</label>
+                    <input type="number" className="form-control" id="points" defaultValue={100} />
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="assignmentGroup" className="form-label">Assignment Group</label>
+                    <select className="form-control" id="assignmentGroup" defaultValue="Assignments">
+                        <option>Assignments</option>
+                        <option>Quizzes</option>
+                        <option>Exams</option>
+                    </select>
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="displayGradeAs" className="form-label">Display Grade as</label>
+                    <select className="form-control" id="displayGradeAs" defaultValue="Percentage">
+                        <option>Percentage</option>
+                        <option>Points</option>
+                        <option>Complete/Incomplete</option>
+                    </select>
+                </div>
+
+                {/* Submission Type Section */}
+                <div className="row mb-3 align-items-start">
+                    <div className="col-md-4">
+                        <label htmlFor="submissionType" className="form-label">Submission Type</label>
+                    </div>
+                    <div className="col-md-8">
+                        <div className="p-3 border">
+                            <select className="form-control" id="submissionType" defaultValue="Online">
                                 <option>Online</option>
-                                <option>In Person</option>
-                            </select><br /><br />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                            Online Entry Options<br /><br />
-                        </td>
-                        <td>
-                            <label><input type="checkbox" name="entry" value="Text Entry" /> Text Entry</label><br />
-                            <label><input type="checkbox" name="entry" value="Website URL" /> Website URL</label><br />
-                            <label><input type="checkbox" name="entry" value="Media Recordings" /> Media Recordings</label><br />
-                            <label><input type="checkbox" name="entry" value="Student Annotation" /> Student Annotation</label><br />
-                            <label><input type="checkbox" name="entry" value="File Uploads" /> File Uploads</label><br /><br />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                            <label htmlFor="wd-assign">Assign To</label><br /><br />
-                        </td>
-                        <td>
-                            <input id="wd-assign" defaultValue="Everyone" /><br /><br />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
-                            <label htmlFor="wd-due-date">Due Date</label><br /><br />
-                        </td>
-                        <td>
-                            <input id="wd-due-date" type="date" defaultValue="2024-05-13" /><br /><br />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style={{ textAlign: 'left' }}>
-                            <label htmlFor="wd-available-from">Available from</label><br />
-                            <input id="wd-available-from" type="date" defaultValue="2024-05-06" /><br /><br />
-                        </td>
-                        <td style={{ textAlign: 'left' }}>
-                            <label htmlFor="wd-available-until">Until</label><br />
-                            <input id="wd-available-until" type="date" defaultValue="2024-05-20" /><br /><br />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={2} style={{ textAlign: 'right' }}>
-                            <button>Cancel</button>
-                            <button>Save</button><br /><br />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                                <option>On Paper</option>
+                                <option>No Submission</option>
+                            </select>
+
+                            <div className="mt-3">
+                                <label className="form-label">Online Entry Options</label>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" id="textEntry" />
+                                    <label className="form-check-label" htmlFor="textEntry">Text Entry</label>
+                                </div>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" id="websiteUrl" defaultChecked />
+                                    <label className="form-check-label" htmlFor="websiteUrl">Website URL</label>
+                                </div>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" id="mediaRecordings" />
+                                    <label className="form-check-label" htmlFor="mediaRecordings">Media Recordings</label>
+                                </div>
+                                <div className="form-check">
+                                    <input className="form-check-input" type="checkbox" id="fileUploads" />
+                                    <label className="form-check-label" htmlFor="fileUploads">File Uploads</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Assign Section */}
+                <div className="row mb-3 align-items-start">
+                    <div className="col-md-4">
+                        <label htmlFor="assignTo" className="form-label">Assign</label>
+                    </div>
+                    <div className="col-md-8">
+                        <div className="p-3 border">
+                        <label htmlFor="assignTo" className="form-label">Assign To</label>
+                            <input type="text" className="form-control" id="assignTo" defaultValue="Everyone" readOnly />
+
+                            <div className="row mt-3">
+                                <div className="col-md-6">
+                                    <label htmlFor="availableFrom" className="form-label">Available from</label>
+                                    <input
+                                        type="datetime-local"
+                                        className="form-control"
+                                        id="availableFrom"
+                                        defaultValue="2024-05-06T00:00"
+                                    />
+                                </div>
+                                <div className="col-md-6">
+                                    <label htmlFor="until" className="form-label">Until</label>
+                                    <input
+                                        type="datetime-local"
+                                        className="form-control"
+                                        id="until"
+                                        defaultValue="2024-05-13T23:59"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* Buttons */}
+                <div className="d-flex justify-content-end mt-4">
+                    <button type="button" className="btn btn-secondary me-2">Cancel</button>
+                    <button type="submit" className="btn btn-danger">Save</button>
+                </div>
+            </form>
         </div>
     );
 }

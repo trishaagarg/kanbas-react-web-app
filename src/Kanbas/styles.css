@@ -1,0 +1,74 @@
+@media (min-width: 768px) {
+    #wd-kanbas .wd-main-content-offset {
+      padding-left: 140px !important;
+    }
+  }
+  
+
+  .list-group.wd > .list-group-item.active {
+    color: black;
+    background-color: white;
+    border-left: 3px solid black !important;
+  }
+  
+  body { margin: 0;  padding: 0; }
+body * { font-family:
+         Arial, Helvetica, 
+         sans-serif; }
+@media (min-width: 768px) {
+  #wd-kanbas .wd-main-content-offset {
+    padding-left: 140px !important;
+  }
+}
+
+.btn-secondary {
+  --bs-btn-color: #000 !important;
+  --bs-btn-bg: #c7cdd1 !important;
+  --bs-btn-border-color: #c7cdd1 !important;
+  --bs-btn-hover-color: #fff !important;
+}
+.bg-secondary {
+  --bs-secondary-rgb: 199, 205, 209;
+}
+.list-group-item {
+  --bs-list-group-border-color: gray;
+}
+.wd-lesson {
+  border-left: 3px solid green !important;
+}
+
+/* General Container */
+#assignments-screen {
+  font-family: Arial, sans-serif;
+}
+
+/* Breadcrumb Text (Top Heading) */
+.breadcrumb-text {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+/* Search Bar Styling */
+.search-bar {
+  font-size: 0.85rem;
+  padding: 0.5rem;
+}
+
+/* Group and Assignment Buttons */
+.group-btn, .assignment-btn {
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.assignment-btn {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+}
+
+.group-btn {
+  color: #666;
+  border-color: #666;
+}
+
