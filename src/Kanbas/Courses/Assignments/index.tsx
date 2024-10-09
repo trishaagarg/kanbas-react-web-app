@@ -7,7 +7,6 @@ import {
 } from "react-icons/bs";  // Added BsFileEarmarkText icon
 import { FaPlus } from "react-icons/fa";
 import GreenCheckmark from "./GreenCheckmark";
-import AssignmentControlButtons from "./AssignmentControlButtons";
 import { FaRegEdit } from "react-icons/fa";
 
 export default function Assignments() {
