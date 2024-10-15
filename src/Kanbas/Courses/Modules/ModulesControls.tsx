@@ -5,10 +5,7 @@ export default function ModulesControls() {
   return (
     <div id="wd-modules-controls" className="text-nowrap">
       {/* Add Module Button */}
-      <button
-        id="wd-add-module-btn"
-        className="btn btn-lg btn-danger me-1 float-end"
-      >
+      <button id="wd-add-module-btn" className="btn btn-lg btn-danger me-1 float-end">
         <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
         Module
       </button>
@@ -25,6 +22,7 @@ export default function ModulesControls() {
           Publish All
         </button>
         <ul className="dropdown-menu">
+          {/* Publish all modules and items */}
           <li>
             <a
               id="wd-publish-all-modules-and-items-btn"
@@ -35,6 +33,8 @@ export default function ModulesControls() {
               Publish all modules and items
             </a>
           </li>
+
+          {/* Publish modules only */}
           <li>
             <a
               id="wd-publish-modules-only-button"
@@ -45,10 +45,11 @@ export default function ModulesControls() {
               Publish modules only
             </a>
           </li>
-          {/* Unpublish All Modules and Items */}
+
+          {/* Unpublish all modules and items */}
           <li>
             <a
-              id="wd-unpublish-all-modules-and-items"
+              id="wd-unpublish-all-modules-and-items-btn"
               className="dropdown-item"
               href="#"
             >
@@ -56,10 +57,11 @@ export default function ModulesControls() {
               Unpublish all modules and items
             </a>
           </li>
-          {/* Unpublish Modules Only */}
+
+          {/* Unpublish modules only */}
           <li>
             <a
-              id="wd-unpublish-modules-only"
+              id="wd-unpublish-modules-only-btn"
               className="dropdown-item"
               href="#"
             >
@@ -71,18 +73,12 @@ export default function ModulesControls() {
       </div>
 
       {/* View Progress Button */}
-      <button
-        id="wd-view-progress"
-        className="btn btn-lg btn-secondary me-1 float-end"
-      >
+      <button id="wd-view-progress" className="btn btn-lg btn-secondary me-1 float-end">
         View Progress
       </button>
 
       {/* Collapse All Button */}
-      <button
-        id="wd-collapse-all"
-        className="btn btn-lg btn-secondary me-1 float-end"
-      >
+      <button id="wd-collapse-all" className="btn btn-lg btn-secondary me-1 float-end">
         Collapse All
       </button>
     </div>
