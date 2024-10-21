@@ -22,12 +22,10 @@ export default function Courses() {
       <hr />
 
       <div className="row">
-        {/* Navigation on the left */}
         <div className="col-md-3">
           <CoursesNavigation />
         </div>
 
-        {/* Main content on the right */}
         <div className="col-md-9 flex-fill">
           <Routes>
             <Route path="/" element={<Navigate to="Home" />} />
