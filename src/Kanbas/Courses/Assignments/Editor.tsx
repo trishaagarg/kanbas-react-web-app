@@ -1,36 +1,70 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { addAssignment, updateAssignment } from "./reducer"; // Import Redux actions
 import * as db from "../../Database";
+
+// Define the shape of an Assignment
+interface Assignment {
+  _id: string;
+  name: string;
+  course: string;
+  description: string;
+  availableFrom: string;
+  dueDate: string;
+  status: string;
+  points: number;
+}
+
+// Define the shape of the Redux state for assignmentsReducer
+interface RootState {
+  assignmentsReducer: {
+    assignments: Assignment[];
+  };
+}
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
-  const [assignment, setAssignment] = useState({
-    name: "",
-    description: "",
-    points: 100,
-    dueDate: "",
-    availableFrom: "",
-  });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // Fetch assignment from the database when the component loads
-  useEffect(() => {
-    const fetchedAssignment = db.assignments.find(
-      (a: any) => a.course === cid && a._id === aid
-    );
-    if (fetchedAssignment) {
-      setAssignment({
-        name: fetchedAssignment.name,
-        description: fetchedAssignment.description || "",
-        points: fetchedAssignment.points,
-        dueDate: fetchedAssignment.dueDate,
-        availableFrom: fetchedAssignment.availableFrom || "",
-      });
+  // Check if editing an existing assignment
+  const existingAssignment = useSelector((state: RootState) =>
+    state.assignmentsReducer.assignments.find((a: Assignment) => a._id === aid)
+  );
+
+  // Initialize assignment state
+  const [assignment, setAssignment] = useState(
+    existingAssignment || {
+      name: "",
+      description: "",
+      points: 100,
+      dueDate: "",
+      availableFrom: "",
+      availableUntil: "",
+      course: cid,
     }
-  }, [cid, aid]);
+  );
+
+  useEffect(() => {
+    if (existingAssignment) {
+      setAssignment(existingAssignment);
+    }
+  }, [existingAssignment]);
+
+  // Handle Save
+  const handleSave = () => {
+    if (existingAssignment) {
+      dispatch(updateAssignment(assignment));
+    } else {
+      dispatch(addAssignment({ ...assignment, course: cid }));
+    }
+    navigate(`/kanbas/courses/${cid}/assignments`);
+  };
 
   return (
     <div className="container mt-4">
-      <h2>Edit Assignment</h2>
+      <h2>{existingAssignment ? "Edit Assignment" : "New Assignment"}</h2>
       <form>
         {/* Assignment Name */}
         <div className="mb-3">
@@ -208,7 +242,7 @@ export default function AssignmentEditor() {
                   type="datetime-local"
                   className="form-control"
                   id="dueDate"
-                  value={assignment.dueDate.slice(0, 16)} // Adjusting the date format for input
+                  value={assignment.dueDate.slice(0, 16)}
                   onChange={(e) =>
                     setAssignment({ ...assignment, dueDate: e.target.value })
                   }
@@ -245,12 +279,9 @@ export default function AssignmentEditor() {
           >
             Cancel
           </Link>
-          <Link
-            to={`/kanbas/courses/${cid}/assignments`}
-            className="btn btn-danger"
-          >
+          <button type="button" onClick={handleSave} className="btn btn-danger">
             Save
-          </Link>
+          </button>
         </div>
       </form>
     </div>
