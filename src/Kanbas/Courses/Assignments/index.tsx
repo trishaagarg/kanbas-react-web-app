@@ -2,7 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { deleteAssignment } from "./reducer"; // Import delete action
-import AssignmentControlButtons from "./AssignmentControlButtons";
 import AssignmentsControls from "./AssignmentsControls";
 import {
   BsGripVertical,

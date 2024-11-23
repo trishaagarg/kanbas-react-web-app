@@ -1,4 +1,6 @@
 import { FaSearch, FaPlus } from "react-icons/fa";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 export default function AssignmentsControls() {
   return (
