@@ -3,7 +3,7 @@ import * as client from "./client";
 
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 
-export default function HttpClient() { // Corrected 'eexport' to 'export'
+export default function HttpClient() {
   const [welcomeOnClick, setWelcomeOnClick] = useState("");
   const [welcomeOnLoad, setWelcomeOnLoad] = useState("");
 

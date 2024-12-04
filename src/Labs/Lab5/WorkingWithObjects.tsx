@@ -1,120 +1,71 @@
 import React, { useState } from "react";
-
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
-
-interface Module {
-  id: string;
-  name: string;
-  description: string;
-  course: string;
-}
-
 export default function WorkingWithObjects() {
-  const [module, setModule] = useState<Module | null>(null);
-  const [newName, setNewName] = useState("");
-  const [newDescription, setNewDescription] = useState("");
-  const [score, setScore] = useState(85);
-  const [completed, setCompleted] = useState(false);
-
-  const fetchModule = async () => {
-    const response = await fetch(`${REMOTE_SERVER}/lab5/module`);
-    const data = await response.json();
-    setModule(data);
-  };
-
-  const updateModuleName = async () => {
-    await fetch(`${REMOTE_SERVER}/lab5/module/name`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: newName }),
-    });
-    fetchModule(); // Refresh module data
-  };
-
-  const updateModuleDescription = async () => {
-    await fetch(`${REMOTE_SERVER}/lab5/module/description`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ description: newDescription }),
-    });
-    fetchModule(); // Refresh module data
-  };
-
-  const updateScore = async () => {
-    await fetch(`${REMOTE_SERVER}/lab5/assignment/score`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ score }),
-    });
-    alert("Score updated!");
-  };
-
-  const updateCompleted = async () => {
-    await fetch(`${REMOTE_SERVER}/lab5/assignment/completed`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ completed }),
-    });
-    alert("Completed status updated!");
-  };
-
+  const [assignment, setAssignment] = useState({
+    id: 1, title: "NodeJS Assignment",
+    description: "Create a NodeJS server with ExpressJS",
+    due: "2021-10-10", completed: true, score: 0,
+  });
+  const [module, setModule] = useState({
+    id: "0",
+    name: "test-module",
+    description: "test-module-description",
+    course: "test-module-course"
+  });
+  const ASSIGNMENT_API_URL = `${REMOTE_SERVER}/lab5/assignment`
+  const MODULE_API_URL = `${REMOTE_SERVER}/lab5/module`
   return (
-    <div>
-      <h3>Working with Objects</h3>
-
-      {/* Fetch Module */}
-      <button onClick={fetchModule}>Get Module</button>
-      {module && (
-        <div>
-          <p>Module Name: {module.name}</p>
-          <p>Module Description: {module.description}</p>
-        </div>
-      )}
-
-      {/* Update Module Name */}
-      <div>
-        <input
-          type="text"
-          placeholder="New Module Name"
-          value={newName}
-          onChange={(e) => setNewName(e.target.value)}
-        />
-        <button onClick={updateModuleName}>Update Module Name</button>
-      </div>
-
-      {/* Update Module Description */}
-      <div>
-        <input
-          type="text"
-          placeholder="New Module Description"
-          value={newDescription}
-          onChange={(e) => setNewDescription(e.target.value)}
-        />
-        <button onClick={updateModuleDescription}>
-          Update Module Description
-        </button>
-      </div>
-
-      {/* Update Assignment Properties */}
-      <div>
-        <input
-          type="number"
-          placeholder="New Score"
-          value={score}
-          onChange={(e) => setScore(Number(e.target.value))}
-        />
-        <button onClick={updateScore}>Update Score</button>
-      </div>
-      <div>
-        <input
-          type="checkbox"
-          checked={completed}
-          onChange={(e) => setCompleted(e.target.checked)}
-        />
-        <label>Completed</label>
-        <button onClick={updateCompleted}>Update Completed</button>
-      </div>
+    <div id="wd-working-with-objects">
+      <h3>Working With Objects</h3>
+      <h4>Modifying Properties</h4>
+      <a id="wd-update-assignment-title"
+         className="btn btn-primary float-end"
+         href={`${ASSIGNMENT_API_URL}/title/${assignment.title}`}>
+        Update Title
+      </a>
+      <input className="form-control w-75" id="wd-assignment-title"
+        defaultValue={assignment.title} onChange={(e) =>
+          setAssignment({ ...assignment, title: e.target.value })}/>
       <hr />
+      <a id="wd-update-assignment-score"
+         className="btn btn-primary float-end"
+         href={`${ASSIGNMENT_API_URL}/score/${assignment.score}`}>
+        Update Score 
+      </a>
+      <input className="form-control w-75" id="wd-assignment-title"
+        type="number"
+        defaultValue={assignment.score} onChange={(e) =>
+          setAssignment({ ...assignment, score: parseInt(e.target.value) })}/>
+      <hr />
+      <a id="wd-update-assignment-completed"
+         className="btn btn-primary float-end"
+         href={`${ASSIGNMENT_API_URL}/completed/${assignment.completed}`}>
+        Update Completed
+      </a>
+      <input className="" id="wd-assignment-title"
+        type="checkbox"
+        defaultChecked={assignment.completed} onChange={(e) =>
+          setAssignment({ ...assignment, completed: e.target.checked })}/>
+      <hr />
+
+      <a id="wd-update-module-description"
+         className="btn btn-primary float-end"
+         href={`${MODULE_API_URL}/description/${module.description}`}>
+        Update Description
+      </a>
+      <input className="form-control w-75" id="wd-assignment-title"
+        defaultValue={module.description} onChange={(e) =>
+          setModule({ ...module, description: e.target.value })}/>
+      <hr />
+      <h4>Retrieving Objects</h4>
+      <a id="wd-retrieve-assignments" className="btn btn-primary"
+         href={`${REMOTE_SERVER}/lab5/assignment`}>
+        Get Assignment
+      </a><hr/>
+      <h4>Retrieving Properties</h4>
+      <a id="wd-retrieve-assignment-title" className="btn btn-primary"
+         href={`${REMOTE_SERVER}/lab5/assignment/title`}>
+        Get Title
+      </a><hr/>
     </div>
-  );
-}
+);}

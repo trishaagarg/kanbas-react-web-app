@@ -1,21 +1,20 @@
-// store.ts
 import { configureStore } from "@reduxjs/toolkit";
 import modulesReducer from "./Courses/Modules/reducer";
 import accountReducer from "./Account/reducer";
 import assignmentsReducer from "./Courses/Assignments/reducer";
-import coursesReducer from "./Courses/reducer";
-import enrollmentsReducer from "./Courses/Enrollments/reducer";
-import usersReducer from "./Courses/Users/reducer";
+import enrollmentsReducer from "./enrollmentsReducer";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 const store = configureStore({
   reducer: {
     modulesReducer,
     accountReducer,
     assignmentsReducer,
-    coursesReducer,
     enrollmentsReducer,
-    usersReducer,
   },
 });
-
 export default store;
+
+export type KanbasStore = typeof store;
+export type RootState = ReturnType<KanbasStore['getState']>
+export type KanbasDispatch = KanbasStore['dispatch']

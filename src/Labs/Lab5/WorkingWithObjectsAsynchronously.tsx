@@ -9,6 +9,7 @@ export default function WorkingWithObjectsAsynchronously() {
   useEffect(() => {
     fetchAssignment();
   }, []);
+
   const updateTitle = async (title: string) => {
     const updatedAssignment = await client.updateTitle(title);
     setAssignment(updatedAssignment);
@@ -33,7 +34,6 @@ export default function WorkingWithObjectsAsynchronously() {
       <button className="btn btn-primary me-2" onClick={() => updateTitle(assignment.title)} >
         Update Title
       </button>
-
       <pre>{JSON.stringify(assignment, null, 2)}</pre>
       <hr />
     </div>

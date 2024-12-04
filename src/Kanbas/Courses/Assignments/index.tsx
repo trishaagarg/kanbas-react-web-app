@@ -1,110 +1,106 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
-import { deleteAssignment } from "./reducer"; // Import delete action
-import AssignmentsControls from "./AssignmentsControls";
-import {
-  BsGripVertical,
-  BsChevronDown,
-  BsThreeDotsVertical,
-  BsTrash, // Import Trash icon
-} from "react-icons/bs";
-import { FaPlus } from "react-icons/fa";
-import GreenCheckmark from "./GreenCheckmark";
-import { FaRegEdit } from "react-icons/fa";
+import { BsGripVertical, BsPlus } from "react-icons/bs";
+import "../../styles.css";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { MdArrowDropDown, MdEditDocument } from "react-icons/md";
+import { IoEllipsisVertical } from "react-icons/io5";
+import GreenCheckmark from "../Modules/GreenCheckmark";
+import { useSelector, useDispatch } from "react-redux";
+import type { Assignment } from "./reducer";
+import { useParams } from "react-router";
+import * as coursesClient from "../client";
+import { useEffect } from "react";
+import { setAssignments, deleteAssignment } from "./reducer";
+import { BiTrash } from "react-icons/bi";
+import * as assignmentClient from "./client"
 
-// Define the Assignment type inline
-interface Assignment {
-  _id: string;
-  name: string;
-  course: string;
-  description: string;
-  availableFrom: string;
-  dueDate: string;
-  status: string;
-  points: number;
-}
 
 export default function Assignments() {
-  const { cid } = useParams(); // Get course ID from the URL
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const isFaculty = currentUser.role === "FACULTY";
+  const { assignments } = useSelector((state: any) => state.assignmentsReducer);
   const dispatch = useDispatch();
+  const typedAssignments = assignments as Assignment[];
+  const { cid } = useParams();
+  const fetchAssignments = async () => {
+    const assignments = await coursesClient.findAssignmentsForCourse(cid ?? "");
+    dispatch(setAssignments(assignments));
+  }
 
-  // Use Redux state for assignments and filter by course ID
-  const assignments = useSelector((state: { assignmentsReducer: { assignments: Assignment[] } }) =>
-    state.assignmentsReducer.assignments.filter((assignment) => assignment.course === cid)
-  );
+  const removeAssignment = async (assignment: Assignment) => {
+    assignmentClient.deleteAssignment(assignment)
+    dispatch(deleteAssignment(assignment._id))
+  }
 
-  // Delete handler
-  const handleDelete = (assignmentId: string) => {
-    if (window.confirm("Are you sure you want to delete this assignment?")) {
-      dispatch(deleteAssignment(assignmentId));
-    }
-  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
 
-  return (
-    <div>
-      <AssignmentsControls />
-      <br />
-      <br />
-      {/* Assignments Header */}
-      <div className="d-flex align-items-center mb-3 p-3 ps-2 bg-secondary border border-gray rounded">
-        <h5 className="mb-0 me-2 d-flex align-items-center">
-          <BsGripVertical className="me-2 fs-3" />
-          <BsChevronDown className="me-2" />
-          ASSIGNMENTS
-        </h5>
-        <div className="ms-auto d-flex align-items-center">
-          <span className="text-muted me-2">40% of Total</span>
-          <button className="btn btn-outline-secondary btn-sm me-2">
-            <FaPlus />
-          </button>
-          <button className="btn btn-outline-secondary btn-sm">
-            <BsThreeDotsVertical />
-          </button>
+  function AssignmentPanel(assignment :Assignment) {
+    const {_id, course, name, stday, sttime, dueday, duetime, pts} = assignment;
+    return (
+      <div className="d-flex align-items-center">
+        <BsGripVertical className="fs-4 me-2"/>
+        <MdEditDocument className="fs-4 me-2"/>
+        <div className="flex-begin flex-fill">
+          <a className="wd-assignment-link text-decoration-none text-dark fs-5 fw-bold"
+            href={`#/Kanbas/Courses/${course}/Assignments/${_id}`}>
+          {name} 
+          </a>
+          <br />
+          <span className="text-danger"> Multiple Modules </span> | <strong> Not available until </strong>
+          {new Date(stday + "T00:00").toLocaleDateString("en-US", { month: "long", day: "numeric" }) + " at " + sttime} |
+          <br/>
+          <strong> Due </strong>
+          {new Date(dueday + "T00:00").toLocaleDateString("en-US", { month: "long", day: "numeric" }) + " at " + duetime} | {pts}pts
+        </div>
+        <div className="flex-end">
+          <BiTrash className="fs-4 me-2" onClick={() => removeAssignment(assignment)}/>
+          <GreenCheckmark />
+          <IoEllipsisVertical className="fs-4 ms-4" />
         </div>
       </div>
+    );
+  }
 
-      {/* Assignments List */}
-      <ul id="wd-assignments" className="list-group rounded-0">
-        {assignments.map((assignment) => (
-          <li
-            key={assignment._id}
-            className="wd-assignment list-group-item p-0 mb-0 fs-5 border-top border-gray"
-          >
-            <div className="wd-title p-3 ps-2 d-flex align-items-center">
-              <BsGripVertical className="me-2 fs-3" />
-              <FaRegEdit className="me-2 text-success" />
-              <Link
-                className="wd-assignment-link ms-2 fw-bold text-primary"
-                to={`/kanbas/courses/${cid}/assignments/${assignment._id}`}
-              >
-                {assignment.name}
-              </Link>
-              <span className="ms-auto">
-                <GreenCheckmark />
-              </span>
-              {/* Trash button for delete */}
-              <BsTrash
-                className="text-danger ms-3"
-                onClick={() => handleDelete(assignment._id)}
-              />
-            </div>
-            <div className="wd-details ps-4">
-              <span className="text-danger">Multiple Modules</span>
-              <span className="text-muted">
-                {" "} | Not available until{" "}
-                {new Date(assignment.availableFrom).toLocaleString()}
-              </span>
-              <br />
-              <span className="fw-bold">
-                Due {new Date(assignment.dueDate).toLocaleDateString()} at{" "}
-                {new Date(assignment.dueDate).toLocaleTimeString()} |{" "}
-                {assignment.points} pts
-              </span>
-            </div>
-          </li>
-        ))}
+  return (
+    <div id="wd-assignments" className="ms-1">
+      <div className="d-flex mb-1 align-items-center">
+        <FaMagnifyingGlass className="position-fixed fs-4 ms-2"/>
+        <input id="wd-search-assignment"
+              className="form-control me-5 px-5 border-secondary"
+              placeholder="Search..." />
+        {isFaculty && <button id="wd-add-assignment-group" className="btn btn-secondary d-flex me-1">
+          <BsPlus className="fs-4" />
+          Group
+        </button>}
+        {isFaculty && <a href={`#/Kanbas/Courses/${cid}/Assignments/new-assignment`} className="text-decoration-none">
+          <button id="wd-add-assignment" className="btn btn-danger d-flex flex-end">
+          <BsPlus className="fs-4" />
+          Assignment
+        </button></a>}
+      </div>
+      <div className="wd-title p-3 ps-2 bg-secondary d-flex align-items-center rounded-0">
+        <div className="flex-begin">
+          <BsGripVertical className="me-1 fs-4" />
+          <MdArrowDropDown className="me-2 fs-4" />
+        </div>
+        <div className="flex-begin flex-fill fs-4 fw-bold">
+          ASSIGNMENTS
+        </div>
+        <div className="flex-end flex">
+          <span className="border border-dark rounded-pill px-2 py-2">40% of Total</span>
+          {isFaculty && <button className="btn">
+            <BsPlus className="fs-4" />
+          </button>}
+          <IoEllipsisVertical className="fs-4" />
+        </div>
+      </div>
+      <ul id="wd-assignment-list" className="list-group rounded-0">
+        {typedAssignments
+          .filter((a) => a.course === cid)
+          .map((a) => (<li className="wd-assignment-list-item list-group-item p-3 ps-1">
+            <AssignmentPanel {...a}/>
+          </li>))}
       </ul>
     </div>
-  );
-}
+);}
