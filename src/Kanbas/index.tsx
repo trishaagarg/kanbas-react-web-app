@@ -91,9 +91,9 @@ export default function Kanbas() {
                           updateCourse={updateCourse}/>
               </ProtectedRoute>
             } />
-            <Route path="/Courses/:cid/*" element={<EnrollmentProtectedRoute>
+            <Route path="/Courses/:cid/*" element={
               <Courses courses={courses}/>
-            </EnrollmentProtectedRoute>} />
+          } />
             <Route path="/Calendar" element={<h1>Calendar</h1>} />
             <Route path="/Inbox" element={<h1>Inbox</h1>} />
           </Routes>
